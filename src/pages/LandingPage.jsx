@@ -1,9 +1,149 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ContactForm from '../components/ContactForm'
 import HeroMobile from '../components/HeroMobile';
+import FloatingConsultButton from '../components/FloatingConsultButton';
 
 const LandingPage = () => {
   const [isContactOpen, setIsContactOpen] = useState(false)
+  const MobileServicesCarousel = () => {
+    const [slideIndex, setSlideIndex] = useState(0)
+    const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
+
+    useEffect(() => {
+      const id = setInterval(() => {
+        setIsTransitionEnabled(true)
+        setSlideIndex((prev) => prev + 1)
+      }, 2000)
+      return () => clearInterval(id)
+    }, [])
+
+    const handleTransitionEnd = () => {
+      if (slideIndex === 2) {
+        // We are on the cloned first slide; jump back to real first slide without animation
+        setIsTransitionEnabled(false)
+        setSlideIndex(0)
+        // Re-enable transition in next tick
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setIsTransitionEnabled(true))
+        })
+      }
+    }
+
+    return (
+      <div className="sm:hidden overflow-hidden mb-8">
+        <div
+          className={`flex w-[300%] ${isTransitionEnabled ? 'transition-transform duration-700 ease-out' : ''}`}
+          style={{ transform: `translateX(-${slideIndex * (100 / 3)}%)` }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {/* Slide 1: first 4 cards */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Card 1 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/IUI, IVF & ICSI.png" alt="IUI, IVF & ICSI" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">IUI, IVF & ICSI</h3>
+              </div>
+              {/* Card 2 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Blastocyst.png" alt="Blastocyst Transfer" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Blastocyst Transfer</h3>
+              </div>
+              {/* Card 3 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Cryopreservation.png" alt="Cryopreservation" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Cryopreservation</h3>
+                <p className="text-gray-500 text-xs mt-1">(Egg, Sperm & Embryos)</p>
+              </div>
+              {/* Card 4 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/PRP & Ovarian.png" alt="PRP & Ovarian Rejuvenation" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">PRP & Ovarian Rejuvenation</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide 2: next 4 cards */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Card 5 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Genetic testing.png" alt="Genetic Testing" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Genetic Testing</h3>
+                <p className="text-gray-500 text-xs mt-1">(PGT-A & PGT-M)</p>
+              </div>
+              {/* Card 6 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <img src="/Images/Genetic.png" alt="Genetic Counseling" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Genetic Counseling</h3>
+              </div>
+              {/* Card 7 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/TESA PESA.png" alt="TESA/PESA" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">TESA/PESA</h3>
+              </div>
+              {/* Card 8 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Laparoscopy &.png" alt="Laparoscopy & Hysteroscopy" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Laparoscopy & Hysteroscopy</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide 3 (Clone of Slide 1) for seamless infinite loop */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Card 1 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/IUI, IVF & ICSI.png" alt="IUI, IVF & ICSI" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">IUI, IVF & ICSI</h3>
+              </div>
+              {/* Card 2 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Blastocyst.png" alt="Blastocyst Transfer" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Blastocyst Transfer</h3>
+              </div>
+              {/* Card 3 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/Cryopreservation.png" alt="Cryopreservation" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">Cryopreservation</h3>
+                <p className="text-gray-500 text-xs mt-1">(Egg, Sperm & Embryos)</p>
+              </div>
+              {/* Card 4 */}
+              <div className="bg-white rounded-sm p-4 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                  <img src="/Images/PRP & Ovarian.png" alt="PRP & Ovarian Rejuvenation" className="w-16 h-16 object-contain" />
+                </div>
+                <h3 className="text-gray-900 font-medium text-lg">PRP & Ovarian Rejuvenation</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
   const doctors = [
     {
       name: 'Dr. Gauri Agarwal',
@@ -38,6 +178,71 @@ const LandingPage = () => {
         '/Images/Dr. Monika Maan.png',
     },
   ]
+  const MobileDoctorsCarousel = () => {
+    const items = doctors
+    const [index, setIndex] = useState(1) // start at first real slide
+    const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
+
+    useEffect(() => {
+      if (!items || items.length === 0) return
+      const id = setInterval(() => {
+        setIsTransitionEnabled(true)
+        setIndex((prev) => prev + 1)
+      }, 2500)
+      return () => clearInterval(id)
+    }, [items])
+
+    const handleTransitionEnd = () => {
+      const total = items.length
+      if (index === total + 1) {
+        setIsTransitionEnabled(false)
+        setIndex(1)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setIsTransitionEnabled(true))
+        })
+      }
+    }
+
+    const slides = [items[items.length - 1], ...items, items[0]]
+
+    return (
+      <div className="sm:hidden overflow-hidden">
+        <div
+          className={`flex ${isTransitionEnabled ? 'transition-transform duration-700 ease-out' : ''}`}
+          style={{ transform: `translateX(-${index * 100}%)` }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {slides.map((doc, i) => (
+            <div key={`${doc.name}-${i}`} className="w-full flex-shrink-0 px-4">
+              <div
+                className="flex flex-col items-center text-center group transition-all duration-300"
+              >
+                <div className="relative w-full max-w-[280px] mx-auto aspect-[3/4] rounded-xl overflow-hidden shadow-md bg-white border-2 border-gray-200 transition-all duration-300 group-hover:shadow-2xl group-hover:border-red-400 group-hover:-translate-y-2">
+                  <img
+                    src={doc.image}
+                    alt={doc.name}
+                    className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-75 group-hover:saturate-150"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="text-white text-lg font-bold tracking-wider bg-red-600/80 px-3 py-1 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 cursor-pointer">
+                      View Profile
+                    </span>
+                  </div>
+                </div>
+                <h3 className="mt-4 text-red-600 font-extrabold tracking-wide uppercase text-lg sm:text-xl transition-all duration-300 group-hover:underline group-hover:decoration-2 group-hover:decoration-red-600">
+                  {doc.name}
+                </h3>
+                <p className="mt-1 text-gray-700 text-base">{doc.role}</p>
+                <p className="text-gray-600 text-base">{doc.experience}</p>
+                <p className="mt-1 text-gray-900 font-semibold uppercase">{doc.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
   const testimonials = [
     {
       name: 'Tulsi Academy',
@@ -81,34 +286,242 @@ const LandingPage = () => {
     },
   ]
 
+  const MobileTestimonialsCarousel = () => {
+    const items = testimonials
+    const [index, setIndex] = useState(1)
+    const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
+
+    useEffect(() => {
+      if (!items || items.length === 0) return
+      const id = setInterval(() => {
+        setIsTransitionEnabled(true)
+        setIndex((prev) => prev + 1)
+      }, 2500)
+      return () => clearInterval(id)
+    }, [items])
+
+    const handleTransitionEnd = () => {
+      const total = items.length
+      if (index === total + 1) {
+        setIsTransitionEnabled(false)
+        setIndex(1)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setIsTransitionEnabled(true))
+        })
+      }
+    }
+
+    if (!items || items.length === 0) return null
+    const slides = [items[items.length - 1], ...items, items[0]]
+
+    return (
+      <div className="sm:hidden overflow-hidden">
+        <div
+          className={`flex ${isTransitionEnabled ? 'transition-transform duration-700 ease-out' : ''}`}
+          style={{ transform: `translateX(-${index * 100}%)` }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {slides.map((t, i) => (
+            <div key={`${t.name}-${i}`} className="w-full flex-shrink-0 px-4">
+              <article
+                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 group hover:shadow-xl hover:-translate-y-2 hover:border-red-300"
+                style={{ willChange: 'transform' }}
+              >
+                <div className="relative w-full aspect-video bg-gray-200">
+                  <iframe
+                    className="absolute inset-0 h-full w-full"
+                    src={`https://www.youtube.com/embed/${t.videoId}?rel=0`}
+                    title={t.name}
+                    loading="lazy"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="h-9 w-9 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-semibold transition-all duration-300 group-hover:bg-red-600">
+                      {t.initials}
+                    </div>
+                    <div>
+                      <p className="text-gray-900 font-medium leading-none">{t.name}</p>
+                      <p className="text-gray-500 text-xs">{t.role}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-red-500 mb-2" aria-label={`${t.stars} star rating`}>
+                    {Array.from({ length: 5 }).map((_, iStar) => (
+                      <svg
+                        key={iStar}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className={`h-4 w-4 transition-all duration-200 ${iStar < t.stars ? 'opacity-100 group-hover:scale-125 group-hover:text-yellow-400' : 'opacity-30'}`}
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.036a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.802-2.036a1 1 0 00-1.175 0l-2.802 2.036c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.88 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-700 line-clamp-4 mb-3 transition-all duration-300 group-hover:-translate-y-1 group-hover:text-black">
+                    {t.text}
+                  </p>
+                  <a
+                    href={t.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block text-sm font-medium text-red-600 hover:text-white hover:bg-red-600 transition-colors duration-200 px-3 py-1 rounded-lg group-hover:shadow"
+                  >
+                    Read more
+                  </a>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const MobileFeaturesCarousel = () => {
+    const [index, setIndex] = useState(0)
+    const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
+
+    useEffect(() => {
+      const id = setInterval(() => {
+        setIsTransitionEnabled(true)
+        setIndex((prev) => prev + 1)
+      }, 2500)
+      return () => clearInterval(id)
+    }, [])
+
+    const handleTransitionEnd = () => {
+      if (index === 2) {
+        setIsTransitionEnabled(false)
+        setIndex(0)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setIsTransitionEnabled(true))
+        })
+      }
+    }
+
+    return (
+      <div className="sm:hidden overflow-hidden">
+        <div
+          className={`flex w-[300%] ${isTransitionEnabled ? 'transition-transform duration-700 ease-out' : ''}`}
+          style={{ transform: `translateX(-${index * (100 / 3)}%)` }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {/* Slide 1: first 4 cards */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/08.png" alt="35+ IVF Centres" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">35+ IVF Centres</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">With over 35 IVF centres across the National and International, Seeds of Innocens brings fertility care closer to you. Whether you're in a metro or a smaller city, expert help is never far away. Visit your nearest centre and take the first step toward parenthood with us.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/01.png" alt="20,000+ Healthy Babies" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">20,000+ Healthy Babies</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">At Seeds of Innocens, we are proud to have helped over 20,000 families welcome healthy babies into the world. Our commitment to quality fertility care and personalised treatment has made us a trusted name in IVF.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/03.png" alt="Upto 78% Success Rate" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">Upto 78% Success Rate</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">We maintain an impressive IVF success rate of 78%, higher than the average. Our advanced lab technology and individualised treatment plans make this possible. We believe in transparency, trust, and results that matter.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/06.png" alt="30+ Certified Trained Clinicians" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">30+ Certified Trained Clinicians</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">Our team includes over 30 certified and highly trained fertility specialists and embryologists. With years of experience and global expertise, we offer world-class treatment and compassionate care.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide 2: next 4 cards */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/02.png" alt="Affordable IVF Care" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">Affordable IVF Care</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">We provide affordable IVF treatment and offer quality services to patients, with customised packages and financing options to make your journey easier.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/04.png" alt="Fetal Medicine" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">Fetal Medicine</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">We offer fetal medicine services including ultrasound scans, fetal echocardiography, and diagnostic procedures like amniocentesis and CVS for comprehensive prenatal care.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/05.png" alt="Expert Fertility Counsellor & Clinical Geneticist" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">Expert Fertility Counsellor & Clinical Geneticist</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">Genetic counselors evaluate family histories and identify potential genetic risks that could affect reproductive outcomes, guiding you with options and implications of results.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/07.png" alt="In-House Genetic Lab" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">In-House Genetic Lab</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">We are the first IVF centre in India to establish an in-house genetic lab with testing services including PGT-A which increases the success rate of the IVF process.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide 3 (Clone of Slide 1) */}
+          <div className="w-1/3 px-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/08.png" alt="35+ IVF Centres" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">35+ IVF Centres</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">With over 35 IVF centres across the National and International, Seeds of Innocens brings fertility care closer to you. Whether you're in a metro or a smaller city, expert help is never far away. Visit your nearest centre and take the first step toward parenthood with us.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/01.png" alt="20,000+ Healthy Babies" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">20,000+ Healthy Babies</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">At Seeds of Innocens, we are proud to have helped over 20,000 families welcome healthy babies into the world. Our commitment to quality fertility care and personalised treatment has made us a trusted name in IVF.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/03.png" alt="Upto 78% Success Rate" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">Upto 78% Success Rate</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">We maintain an impressive IVF success rate of 78%, higher than the average. Our advanced lab technology and individualised treatment plans make this possible. We believe in transparency, trust, and results that matter.</p>
+              </div>
+              <div className="border border-gray-200 p-6 text-center flex flex-col items-center group">
+                <img src="/Images/06.png" alt="30+ Certified Trained Clinicians" className="h-14 w-14 object-contain" />
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">30+ Certified Trained Clinicians</h3>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">Our team includes over 30 certified and highly trained fertility specialists and embryologists. With years of experience and global expertise, we offer world-class treatment and compassionate care.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       {/* Header Component */}
       <header className="w-full">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-3 sm:py-4">
-          <a href="/" className="flex items-center gap-2 sm:gap-3">
+        <div className="mx-auto max-w-7xl flex items-center justify-start sm:justify-between gap-14 px-4 py-2 sm:py-4">
+          {/* logo */}
+          <a href="/" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
             <img
               src="/Images/SOILogo.png"
               alt="Seeds of Innocens IVF logo"
-              className="h-15 sm:h-20 w-auto"
+              className="h-12 sm:h-20 w-auto"
             />
           </a>
-          <div className="flex flex-col items-start sm:items-center gap-2 w-[240px] sm:w-[300px] ml-2 sm:ml-0">
-            <span className="text-black-800 font-semibold text-[13px] sm:text-base text-left sm:text-center">Call for Fertility Consultation</span>
+          {/* Whatsapp Button */}
+          <div className="flex flex-col items-start sm:items-center gap-1.5 w-auto sm:w-[300px] ml-0 sm:ml-0 flex-shrink-0">
+            <span className="text-black-800 font-semibold text-[12px] sm:text-base text-left sm:text-center">Call for Fertility Consultation</span>
             <a
               href="https://wa.me/919810350512"
               target="_blank"
               rel="noreferrer"
-              className="relative inline-flex items-center bg-[#d32f2f] text-white rounded-full pr-4 sm:pr-7 pl-14 sm:pl-20 py-1.5 sm:py-2 shadow hover:bg-[#c62828] transition-colors"
+              className="relative inline-flex items-center bg-[#d32f2f] text-white rounded-full pr-3 sm:pr-7 pl-12 sm:pl-20 py-1 sm:py-2 shadow hover:bg-[#c62828] transition-colors"
             >
               <span className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full bg-white shadow">
                 <img
                   src="/Images/whatsapp_PNG20 1.png"
                   alt="WhatsApp"
-                  className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-full"
+                  className="h-7 w-7 sm:h-10 sm:w-10 object-contain rounded-full"
                 />
               </span>
-              <span className="font-bold tracking-wide text-[18px] sm:text-[27px] leading-none">98103 50512</span>
+              <span className="font-bold tracking-wide text-[16px] sm:text-[27px] leading-none">98103 50512</span>
             </a>
           </div>
         </div>
@@ -120,7 +533,7 @@ const LandingPage = () => {
       <section className="relative hidden sm:block w-full min-h-[500px] sm:h-[480px] lg:h-[620px]" aria-label="Hero">
         {/* Background image */}
         <video
-          src="/Images/banner.mp4"
+          src="/Images/Banner 02.mp4"
           autoPlay
           loop
           muted
@@ -147,8 +560,11 @@ const LandingPage = () => {
             Seeds of Innocens IVF is one of the Best IVF centre in Delhi, providing world-class fertility treatments. At Seeds of Innocens IVF, we specialize in low and no-drug infertility solutions that help women conceive with minimal invasiveness and unparalleled success. We offer balanced and holistic approaches to In Vitro fertilization (IVF), including innovative treatments like Natural Cycle IVF, Minimal Stimulation IVF, Injection-Free IVF & Conventional IVF.
           </p>
 
-          {/* Service Cards Grid - Responsive: 1 col mobile, 2 col tablet, 4 col desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10 lg:mb-12">
+          {/* Service Cards - Mobile Carousel (first 4 then auto-slide to next 4) */}
+          <MobileServicesCarousel />
+
+          {/* Service Cards Grid - Tablet/Desktop */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10 lg:mb-12">
             {/* Row 1 */}
             <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
@@ -258,8 +674,13 @@ const LandingPage = () => {
           <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600 mb-4 sm:mb-6">
             Best IVF Specialists & IVF Doctors in Delhi
           </h2>
-          {/* Doctors Grid */}
-          <div className="grid grid-cols-1 mt-20 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {/* Doctors - Mobile Carousel */}
+          <div className="sm:hidden mt-6">
+            <MobileDoctorsCarousel />
+          </div>
+
+          {/* Doctors Grid (Tablet/Desktop) */}
+          <div className="hidden sm:grid grid-cols-1 mt-20 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {doctors.map((doc) => (
               <div
                 key={doc.name}
@@ -307,8 +728,13 @@ const LandingPage = () => {
           <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600 mb-4 sm:mb-6">
             What Our Happy Couples Are Saying!
           </h2>
-          {/* Cards */}
-          <div className="grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
+          {/* Cards - Mobile Carousel */}
+          <div className="sm:hidden mt-6">
+            <MobileTestimonialsCarousel />
+          </div>
+
+          {/* Cards Grid - Tablet/Desktop */}
+          <div className="hidden sm:grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
             {testimonials.map((t) => (
               <article
                 key={t.name}
@@ -377,8 +803,13 @@ const LandingPage = () => {
           <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600 mb-4 sm:mb-6">
             Why Choose Seeds of Innocens IVF
           </h2>
-          {/* Feature Grid */}
-          <div className="grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-0 rounded-md overflow-hidden bg-white">
+          {/* Feature Grid - Mobile Carousel */}
+          <div className="sm:hidden mt-6">
+            <MobileFeaturesCarousel />
+          </div>
+
+          {/* Feature Grid - Tablet/Desktop */}
+          <div className="hidden sm:grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-0 rounded-md overflow-hidden bg-white">
             {[
               {
                 title: '35+ IVF Centres',
@@ -453,7 +884,7 @@ const LandingPage = () => {
                 <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">
                   {f.title}
                 </h3>
-                <p className="mt-2 text-sm text-gray-700 leading-6">{f.desc}</p>
+                <p className="mt-2 text-sm text-gray-700 leading-6 hidden sm:block">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -563,6 +994,7 @@ const LandingPage = () => {
           </div>
         </div>
       )}
+      <FloatingConsultButton onClick={() => setIsContactOpen(true)} />
     </>
   )
 }

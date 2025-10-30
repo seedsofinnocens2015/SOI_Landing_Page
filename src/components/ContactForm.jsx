@@ -48,7 +48,7 @@ const ContactForm = ({
   };
 
   return (
-    <div className={`rounded-lg bg-black/30 text-white p-5 sm:p-6 md:p-7 lg:p-8 shadow-xl max-w-[420px] w-[min(92vw,420px)] relative z-10 ${className}`}>
+    <div className={`rounded-lg bg-black/70 text-white p-5 sm:p-6 md:p-7 lg:p-8 shadow-xl max-w-[420px] w-[min(92vw,420px)] relative z-10 ${className}`}>
       {typeof onClose === 'function' && (
         <button
           aria-label="Close"
