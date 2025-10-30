@@ -132,7 +132,7 @@ const ContactForm = ({
 
 
           {showDisclaimer && (
-            <p className="mt-3 text-[11px] text-gray-600">
+            <p className="mt-3 text-[11px] text-white">
               We don't share your personal info with anyone.
             </p>
           )}

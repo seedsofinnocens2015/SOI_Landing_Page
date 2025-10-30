@@ -115,15 +115,18 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Component */}
-      {/* Show mobile version only on mobile */}
-      <HeroMobile  className="sm:hidden" />
+      <HeroMobile className="sm:hidden" />{/* Show mobile version only on mobile */}
       {/* Show desktop/tablet hero only on sm+ screens */}
       <section className="relative hidden sm:block w-full min-h-[500px] sm:h-[480px] lg:h-[620px]" aria-label="Hero">
         {/* Background image */}
-        <img
-          src="/Images/Top-Banner 1.png"
-          alt="Happy family banner"
+        <video
+          src="/Images/banner.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
           className="absolute inset-0 h-full w-full object-cover"
+          aria-label="Happy family banner video"
         />
         {/* Overlay form panel on the image */}
         <div className="absolute left-4 right-4 sm:left-20 sm:right-auto top-8 sm:top-16 flex justify-center sm:justify-start">
@@ -147,8 +150,8 @@ const LandingPage = () => {
           {/* Service Cards Grid - Responsive: 1 col mobile, 2 col tablet, 4 col desktop */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10 lg:mb-12">
             {/* Row 1 */}
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/IUI, IVF & ICSI.png"
                   alt="IUI, IVF & ICSI"
@@ -158,8 +161,8 @@ const LandingPage = () => {
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">IUI, IVF & ICSI</h3>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/Blastocyst.png"
                   alt="Blastocyst Transfer"
@@ -169,8 +172,8 @@ const LandingPage = () => {
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Blastocyst Transfer</h3>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/Cryopreservation.png"
                   alt="Cryopreservation"
@@ -181,8 +184,8 @@ const LandingPage = () => {
               <p className="text-gray-500 text-xs sm:text-sm mt-1">(Egg, Sperm & Embryos)</p>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/PRP & Ovarian.png"
                   alt="PRP & Ovarian Rejuvenation"
@@ -193,8 +196,8 @@ const LandingPage = () => {
             </div>
 
             {/* Row 2 */}
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/Genetic testing.png"
                   alt="Genetic Testing"
@@ -205,7 +208,7 @@ const LandingPage = () => {
               <p className="text-gray-500 text-xs sm:text-sm mt-1">(PGT-A & PGT-M)</p>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <img
                   src="/Images/Genetic.png"
@@ -216,8 +219,8 @@ const LandingPage = () => {
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Genetic Counseling</h3>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/TESA PESA.png"
                   alt="TESA/PESA"
@@ -227,8 +230,8 @@ const LandingPage = () => {
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">TESA/PESA</h3>
             </div>
 
-            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div className="bg-white rounded-sm p-4 sm:p-6 shadow-sm border border-gray-200 text-center transition duration-300 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.04] group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                 <img
                   src="/Images/Laparoscopy &.png"
                   alt="Laparoscopy & Hysteroscopy"
@@ -258,16 +261,33 @@ const LandingPage = () => {
           {/* Doctors Grid */}
           <div className="grid grid-cols-1 mt-20 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {doctors.map((doc) => (
-              <div key={doc.name} className="flex flex-col items-center text-center">
-                <div className="w-full max-w-[280px] aspect-[3/4] rounded-xl overflow-hidden shadow-md bg-white">
+              <div
+                key={doc.name}
+                className="flex flex-col items-center text-center group transition-all duration-300"
+              >
+                <div className="relative w-full max-w-[280px] aspect-[3/4] rounded-xl overflow-hidden shadow-md bg-white border-2 border-gray-200
+        transition-all duration-300 group-hover:shadow-2xl group-hover:border-red-400 group-hover:-translate-y-2">
+
+                  {/* IMAGE */}
                   <img
                     src={doc.image}
                     alt={doc.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-75 group-hover:saturate-150"
                     loading="lazy"
                   />
+
+                  {/* Overlay/Fade-in Content */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100
+          transition-all duration-300">
+                    <span className="text-white text-lg font-bold tracking-wider bg-red-600/80 px-3 py-1 rounded-full shadow-lg
+            opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 cursor-pointer">
+                      View Profile
+                    </span>
+                  </div>
                 </div>
-                <h3 className="mt-4 text-red-600 font-extrabold tracking-wide uppercase text-lg sm:text-xl">
+
+                <h3 className="mt-4 text-red-600 font-extrabold tracking-wide uppercase text-lg sm:text-xl 
+        transition-all duration-300 group-hover:underline group-hover:decoration-2 group-hover:decoration-red-600">
                   {doc.name}
                 </h3>
                 <p className="mt-1 text-gray-700 text-base">{doc.role}</p>
@@ -290,7 +310,12 @@ const LandingPage = () => {
           {/* Cards */}
           <div className="grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
             {testimonials.map((t) => (
-              <article key={t.name} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <article
+                key={t.name}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden
+        transition-all duration-300 group hover:shadow-xl hover:-translate-y-2 hover:border-red-300"
+                style={{ willChange: 'transform' }}
+              >
                 {/* Video */}
                 <div className="relative w-full aspect-video bg-gray-200">
                   <iframe
@@ -306,7 +331,7 @@ const LandingPage = () => {
                 {/* Body */}
                 <div className="p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="h-9 w-9 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-semibold">
+                    <div className="h-9 w-9 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-semibold transition-all duration-300 group-hover:bg-red-600">
                       {t.initials}
                     </div>
                     <div>
@@ -316,15 +341,26 @@ const LandingPage = () => {
                   </div>
                   <div className="flex items-center gap-1 text-red-500 mb-2" aria-label={`${t.stars} star rating`}>
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 ${i < t.stars ? 'opacity-100' : 'opacity-30'}`}>
+                      <svg
+                        key={i}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className={`h-4 w-4 transition-all duration-200 ${i < t.stars ? 'opacity-100 group-hover:scale-125 group-hover:text-yellow-400' : 'opacity-30'}`}
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.036a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.802-2.036a1 1 0 00-1.175 0l-2.802 2.036c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.88 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
                   </div>
-                  <p className="text-sm text-gray-700 line-clamp-4">
+                  <p className="text-sm text-gray-700 line-clamp-4 mb-3 transition-all duration-300 group-hover:-translate-y-1 group-hover:text-black">
                     {t.text}
                   </p>
-                  <a href={t.link} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-medium text-red-600 hover:text-red-700">
+                  <a
+                    href={t.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block text-sm font-medium text-red-600 hover:text-white hover:bg-red-600 transition-colors duration-200 px-3 py-1 rounded-lg group-hover:shadow"
+                  >
                     Read more
                   </a>
                 </div>
@@ -409,9 +445,14 @@ const LandingPage = () => {
                 ),
               },
             ].map((f, idx) => (
-              <div key={idx} className="border border-gray-200 p-6 text-center flex flex-col items-center">
+              <div
+                key={idx}
+                className="border border-gray-200 p-6 text-center flex flex-col items-center group"
+              >
                 {f.icon}
-                <h3 className="mt-3 text-lg font-semibold text-red-600">{f.title}</h3>
+                <h3 className="mt-3 text-lg font-semibold text-red-600 animated-underline transition-all duration-200">
+                  {f.title}
+                </h3>
                 <p className="mt-2 text-sm text-gray-700 leading-6">{f.desc}</p>
               </div>
             ))}
@@ -510,7 +551,7 @@ const LandingPage = () => {
         </div>
         <div className="w-full h-2 bg-red-600" />
       </footer>
-      
+
       {/* Contact Form Modal */}
       {isContactOpen && (
         <div className="fixed inset-0 z-[9999]">
