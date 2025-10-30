@@ -178,14 +178,7 @@ const LandingPage = () => {
           <div onClick={() => setIsContactOpen(false)} className="absolute inset-0 bg-black/70" />
           <div className="relative z-10 flex min-h-screen items-center justify-center p-2 sm:p-4">
             <div className="relative w-full max-w-md sm:max-w-lg">
-              <button
-                aria-label="Close"
-                onClick={() => setIsContactOpen(false)}
-                className="absolute -right-2 -top-2 sm:right-1 sm:top-1 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white text-gray-700 shadow-lg hover:text-black cursor-pointer flex items-center justify-center text-lg sm:text-xl z-20"
-              >
-                ×
-              </button>
-              <ContactForm />
+              <ContactForm onClose={() => setIsContactOpen(false)} />
             </div>
           </div>
         </div>

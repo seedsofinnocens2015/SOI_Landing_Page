@@ -5,7 +5,8 @@ const ContactForm = ({
   subtitle = "from Best IVF Center in Delhi",
   showDisclaimer = true,
   className = "",
-  onSubmit = null
+  onSubmit = null,
+  onClose = null
 }) => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -46,6 +47,15 @@ const ContactForm = ({
 
   return (
     <div className={`rounded-lg bg-black/70 text-white p-5 sm:p-6 md:p-7 lg:p-8 shadow-xl max-w-[420px] w-[min(92vw,420px)] relative z-10 ${className}`}>
+      {typeof onClose === 'function' && (
+        <button
+          aria-label="Close"
+          onClick={onClose}
+          className="absolute right-2 top-2 h-8 w-8 sm:h-9 sm:w-9 rounded-full text-white/90 hover:text-white cursor-pointer flex items-center justify-center text-lg sm:text-xl"
+        >
+          ×
+        </button>
+      )}
       <h2 className="text-xl sm:text-2xl font-semibold leading-snug">
         {title}
         <br />
