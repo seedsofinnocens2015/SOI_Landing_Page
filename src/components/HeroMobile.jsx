@@ -15,7 +15,7 @@ const HeroMobile = () => (
       loop
       muted
       playsInline
-      className="w-full h-[240px] object-cover"
+      className="w-full h-[200px] object-cover"
     />
     {/* ContactForm overlay */}
     <div className=" left-0 right-0 bottom-0 flex justify-center z-10">

@@ -5,6 +5,7 @@ import FloatingConsultButton from '../components/FloatingConsultButton';
 
 const LandingPage = () => {
   const [isContactOpen, setIsContactOpen] = useState(false)
+  const [isTestimonialAutoSlidePaused, setIsTestimonialAutoSlidePaused] = useState(false)
   const MobileServicesCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(0)
     const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
@@ -152,6 +153,7 @@ const LandingPage = () => {
       location: 'DELHI, GHAZIABAD',
       image:
         '/Images/Dr Gauri maam.jpg',
+        shortDesc: 'A visionary leader transforming the IVF landscape with innovation and global reach. Pioneer in integrating advanced genetics for higher success and healthier outcomes. Driving one of India’s first homegrown IVF brands to international excellence.',
     },
     {
       name: 'Dr. Aditi Bhatnagar',
@@ -160,9 +162,10 @@ const LandingPage = () => {
       location: 'GURUGRAM',
       image:
         '/Images/Dr. Aditi Bhatnagar.jpg',
+        shortDesc: 'A dynamic IVF specialist passionate about treating secondary infertility and recurrent IVF failures. Skilled in managing complex fertility cases with precision and care. Recognized with multiple awards for excellence in reproductive medicine.',
     },
     {
-      name: 'Dr Lisha Singh',
+      name: 'Dr. Lisha Singh',
       role: 'IVF Specialist',
       experience: 'Experience: 7+ years',
       location: 'New Delhi NCR',
@@ -176,6 +179,16 @@ const LandingPage = () => {
       location: 'Pitampura, NCR Delhi',
       image:
         '/Images/Dr. Monika Maan.png',
+        shortDesc: 'A compassionate IVF specialist known for her patient-focused and evidence-based approach. Skilled in fertility preservation, complex infertility, and advanced ultrasound techniques. Committed to delivering personalized and effective reproductive care.',
+    },
+    {
+      name: 'Dr. Beena Upadhyay',
+      role: 'IVF Specialist',
+      experience: 'Experience:20+ years',
+      location: 'Faridabad, NCR Delhi',
+      image:
+        '/Images/Dr. Beena Upadhyay.jpg',
+      shortDesc: 'Delivers caring, evidence-based fertility care with expertise in fertility preservation, complex infertility cases, and advanced ultrasound techniques. Focused on effective, personalized reproductive solutions.',
     },
   ]
   const MobileDoctorsCarousel = () => {
@@ -286,19 +299,89 @@ const LandingPage = () => {
     },
   ]
 
+  // Ensure only one YouTube video plays at a time across testimonial iframes
+  useEffect(() => {
+    let players = []
+    let isApiReady = false
+
+    const onPlayerStateChange = (event) => {
+      // 1 = PLAYING
+      if (event?.data === 1) {
+        setIsTestimonialAutoSlidePaused(true)
+        players.forEach((p) => {
+          if (p !== event.target) {
+            try { p.pauseVideo() } catch (_) {}
+          }
+        })
+      } else if (event?.data === 2 || event?.data === 0) {
+        // 2 = PAUSED, 0 = ENDED
+        setIsTestimonialAutoSlidePaused(false)
+      }
+    }
+
+    const initPlayers = () => {
+      if (!window.YT || !window.YT.Player) return
+      isApiReady = true
+      // Select only testimonial iframes
+      const iframes = document.querySelectorAll('iframe[data-yt="testimonial"]')
+      iframes.forEach((iframeEl) => {
+        // Avoid double-initialization
+        if (iframeEl.dataset.bound === '1') return
+        iframeEl.dataset.bound = '1'
+        const player = new window.YT.Player(iframeEl, {
+          events: { onStateChange: onPlayerStateChange },
+        })
+        players.push(player)
+      })
+    }
+
+    // Load YouTube IFrame API if needed
+    if (!window.YT || !window.YT.Player) {
+      const existing = document.getElementById('youtube-iframe-api')
+      if (!existing) {
+        const tag = document.createElement('script')
+        tag.src = 'https://www.youtube.com/iframe_api'
+        tag.id = 'youtube-iframe-api'
+        document.body.appendChild(tag)
+      }
+      const prev = window.onYouTubeIframeAPIReady
+      window.onYouTubeIframeAPIReady = function () {
+        if (typeof prev === 'function') prev()
+        initPlayers()
+      }
+    } else {
+      initPlayers()
+    }
+
+    // Also attempt to (re)bind after a short delay in case iframes render later
+    const retryId = setTimeout(() => {
+      if (!isApiReady && window.YT && window.YT.Player) initPlayers()
+    }, 1000)
+
+    return () => {
+      clearTimeout(retryId)
+      players.forEach((p) => {
+        try { p.destroy() } catch (_) {}
+      })
+      players = []
+    }
+  }, [])
+
   const MobileTestimonialsCarousel = () => {
+    const isPaused = isTestimonialAutoSlidePaused
     const items = testimonials
     const [index, setIndex] = useState(1)
     const [isTransitionEnabled, setIsTransitionEnabled] = useState(true)
 
     useEffect(() => {
       if (!items || items.length === 0) return
+      if (isPaused) return
       const id = setInterval(() => {
         setIsTransitionEnabled(true)
         setIndex((prev) => prev + 1)
       }, 2500)
       return () => clearInterval(id)
-    }, [items])
+    }, [items, isPaused])
 
     const handleTransitionEnd = () => {
       const total = items.length
@@ -330,12 +413,13 @@ const LandingPage = () => {
                 <div className="relative w-full aspect-video bg-gray-200">
                   <iframe
                     className="absolute inset-0 h-full w-full"
-                    src={`https://www.youtube.com/embed/${t.videoId}?rel=0`}
+                    src={`https://www.youtube.com/embed/${t.videoId}?rel=0&enablejsapi=1`}
                     title={t.name}
                     loading="lazy"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                    data-yt="testimonial"
                   />
                 </div>
                 <div className="p-4">
@@ -680,7 +764,7 @@ const LandingPage = () => {
           </div>
 
           {/* Doctors Grid (Tablet/Desktop) */}
-          <div className="hidden sm:grid grid-cols-1 mt-20 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="hidden sm:grid grid-cols-1 mt-20 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
             {doctors.map((doc) => (
               <div
                 key={doc.name}
@@ -700,14 +784,18 @@ const LandingPage = () => {
                   {/* Overlay/Fade-in Content */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100
           transition-all duration-300">
-                    <span className="text-white text-lg font-bold tracking-wider bg-red-600/80 px-3 py-1 rounded-full shadow-lg
-            opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 cursor-pointer">
-                      View Profile
+                    <span className="text-white text-sm font-semibold tracking-wide px-4 py-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 cursor-default">
+                      {doc.shortDesc || (
+                        <span>
+                          Highly experienced <span className="font-bold text-red-200">IVF specialist</span> dedicated to providing
+                          <span className="block mt-1 text-sm text-gray-100">compassionate care for every couple.</span>
+                        </span>
+                      )}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="mt-4 text-red-600 font-extrabold tracking-wide uppercase text-lg sm:text-xl 
+                <h3 className="mt-4 text-red-600 font-extrabold tracking-wide uppercase text-lg sm:text-lg 
         transition-all duration-300 group-hover:underline group-hover:decoration-2 group-hover:decoration-red-600">
                   {doc.name}
                 </h3>
@@ -746,12 +834,13 @@ const LandingPage = () => {
                 <div className="relative w-full aspect-video bg-gray-200">
                   <iframe
                     className="absolute inset-0 h-full w-full"
-                    src={`https://www.youtube.com/embed/${t.videoId}?rel=0`}
+                    src={`https://www.youtube.com/embed/${t.videoId}?rel=0&enablejsapi=1`}
                     title={t.name}
                     loading="lazy"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                    data-yt="testimonial"
                   />
                 </div>
                 {/* Body */}
@@ -936,13 +1025,45 @@ const LandingPage = () => {
       <section className="w-full py-8 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Address + Google Map */}
+            {/* Address + Details Card */}
             <div className="w-full lg:w-1/2 flex flex-col">
-              <h3 className="font-bold text-xl sm:text-2xl text-gray-900 mb-3">Seeds of Innocens - Best IVF Centre in Delhi | Fertility Clinics</h3>
-              <div className="text-base sm:text-lg font-normal text-gray-900 mb-4 leading-snug">
-                Address: 3, opp. Aurbindo College, MMTC Colony, Malviya Nagar, South Delhi, Delhi 110017
+              <div className=" p-5 sm:p-6">
+                <h3 className="font-bold text-xl sm:text-2xl text-gray-900 leading-snug">Seeds of Innocens - Best IVF Centre in Delhi | Fertility Clinics</h3>
+                <div className="mt-4 space-y-3">
+                <div className="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0"><path d="M6.75 3A2.25 2.25 0 0 0 4.5 5.25v13.5A2.25 2.25 0 0 0 6.75 21h10.5A2.25 2.25 0 0 0 19.5 18.75V5.25A2.25 2.25 0 0 0 17.25 3H6.75Zm1.5 3h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 8.25 6Zm0 3h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm0 3h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5Z"/></svg>
+                    <p className="text-base sm:text-lg text-gray-900">
+                      <span className="font-semibold">Open Days:</span> All Days <span className="text-gray-500">(Monday to Sunday)</span>
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0"><path d="M12 1.5a.75.75 0 0 1 .75.75V3h2.25a.75.75 0 0 1 0 1.5H12.75v2.25a.75.75 0 0 1-1.5 0V4.5H9a.75.75 0 0 1 0-1.5h2.25V2.25A.75.75 0 0 1 12 1.5Zm-6 4.5A2.25 2.25 0 0 0 3.75 8.25v9A2.25 2.25 0 0 0 6 19.5h12a2.25 2.25 0 0 0 2.25-2.25v-9A2.25 2.25 0 0 0 18 6H6Z"/></svg>
+                    <p className="text-base sm:text-lg text-gray-900">
+                      <span className="font-semibold">Timings:</span> 9:00 AM to 6:00 PM
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0"><path d="M12 2.25c-3.728 0-6.75 3.022-6.75 6.75 0 4.989 6.75 12.75 6.75 12.75s6.75-7.761 6.75-12.75c0-3.728-3.022-6.75-6.75-6.75Zm0 9.75a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+                    <p className="text-base sm:text-lg text-gray-900">
+                      <span className="font-semibold">Address:</span> 3, opp. Aurbindo College, MMTC Colony, Malviya Nagar, South Delhi, Delhi 110017
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <a href="https://www.google.com/maps/place/Seeds+of+Innocens+IVF+Centre+-+Best+IVF+Centre+in+Delhi+%7C+Fertility+Clinics/@28.533021,77.203613,17z/data=!4m6!3m5!1s0x390ce20320e1d805:0x7d88d4bcd484e5ec!8m2!3d28.5330212!4d77.203613!16s%2Fg%2F11clydmvm7?hl=en&entry=ttu&g_ep=EgoyMDI1MTAyOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-white mt-0.5 flex-shrink-0"><path d="M12 2.25c-3.728 0-6.75 3.022-6.75 6.75 0 4.989 6.75 12.75 6.75 12.75s6.75-7.761 6.75-12.75c0-3.728-3.022-6.75-6.75-6.75Zm0 9.75a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+                  Get Directions
+                  </a>
+                  <a href="tel:+919810350512" className="inline-flex items-center gap-2 border border-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-semibold hover:border-red-400 hover:text-red-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M2.25 4.5c0-1.243 1.007-2.25 2.25-2.25h3A2.25 2.25 0 0 1 9.75 4.5v1.38c0 .57-.225 1.118-.626 1.52l-1.2 1.2a1.5 1.5 0 0 0-.3 1.71 12.03 12.03 0 0 0 6.066 6.066 1.5 1.5 0 0 0 1.71-.3l1.2-1.2c.402-.401.95-.626 1.52-.626H19.5A2.25 2.25 0 0 1 21.75 18v3A2.25 2.25 0 0 1 19.5 23.25C10.663 23.25 3.75 16.337 3.75 7.5A3 3 0 0 1 6.75 4.5H5.25A2.25 2.25 0 0 1 3 2.25 2.25 2.25 0 0 0 2.25 4.5Z"/></svg>
+                    Call Now
+                  </a>
+                </div>
               </div>
-              <div className="rounded overflow-hidden border border-gray-200 shadow-sm">
+            </div>
+            {/* Google Map */}
+            <div className="w-full lg:w-1/2 flex flex-col">
+              <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2065.4160333339305!2d77.20331691272258!3d28.532736663578216!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce20320e1d805%3A0x7d88d4bcd484e5ec!2sSeeds%20of%20Innocens%20IVF%20Centre%20-%20Best%20IVF%20Centre%20in%20Delhi%20%7C%20Fertility%20Clinics!5e0!3m2!1sen!2sin!4v1761809915881!5m2!1sen!2sin"
                   width="100%"
@@ -954,10 +1075,6 @@ const LandingPage = () => {
                   title="Seeds of Innocens IVF Centre Location"
                 />
               </div>
-            </div>
-            {/* Contact Form Card */}
-            <div className="w-full lg:w-1/2 p-6 flex flex-col justify-center items-center">
-              <ContactForm />
             </div>
           </div>
         </div>

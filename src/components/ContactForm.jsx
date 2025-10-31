@@ -111,7 +111,7 @@ const ContactForm = ({
               name="message"
               value={formData.message}
               onChange={handleInputChange}
-              rows="4"
+              rows="2"
               placeholder="Message"
               required
               className="w-full rounded-md bg-white text-gray-900 placeholder:text-gray-500 px-3 py-2 outline-none focus:ring-2 focus:ring-red-500"
