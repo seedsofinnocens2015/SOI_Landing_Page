@@ -16,9 +16,7 @@ const ContactForm = ({
     email: '',
     message: ''
   })
-  const [isSubmitted, setIsSubmitted] = useState(
-    typeof window !== "undefined" && localStorage.getItem("soi_form_submitted") === "1"
-  );
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -36,14 +34,35 @@ const ContactForm = ({
       formData.message.trim() !== ''
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isFormValid()) {
+    if (!isFormValid()) return;
+
+    try {
+      const resp = await fetch('http://localhost:4000/api/leadsquared/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await resp.json();
+      if (!resp.ok || !data?.ok) throw new Error('LeadSquared error');
+
       if (onSubmit) {
         onSubmit(formData);
       }
-      localStorage.setItem("soi_form_submitted", "1");
+
       setIsSubmitted(true);
+
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
+      }
+
+      // Conversion tracking removed as requested
+    } catch (_err) {
+      alert('Submission failed. Please try again.');
     }
   };
 
