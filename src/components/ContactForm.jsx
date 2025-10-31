@@ -17,6 +17,7 @@ const ContactForm = ({
     message: ''
   })
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -39,13 +40,17 @@ const ContactForm = ({
     if (!isFormValid()) return;
 
     try {
-      const resp = await fetch('http://localhost:4000/api/leadsquared/lead', {
+      const resp = await fetch('https://soi-landing-page-backend.vercel.app/api/leadsquared/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
 
       const data = await resp.json();
+      if (data?.duplicate) {
+        setIsDuplicate(true);
+        return;
+      }
       if (!resp.ok || !data?.ok) throw new Error('LeadSquared error');
 
       if (onSubmit) {
@@ -149,6 +154,10 @@ const ContactForm = ({
             </button>
           </form>
 
+
+          {isDuplicate && (
+            <p className="mt-2 text-sm text-red-400">You have already submitted.</p>
+          )}
 
           {showDisclaimer && (
             <p className="mt-3 text-[11px] text-white">

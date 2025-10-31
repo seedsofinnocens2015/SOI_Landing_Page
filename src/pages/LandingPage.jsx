@@ -825,7 +825,7 @@ const LandingPage = () => {
           <div className="hidden sm:grid grid-cols-1 mt-15 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
             {testimonials.map((t) => (
               <article
-                key={t.name}
+                key={t.videoId || `${t.name}-${t.link}`}
                 className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden
         transition-all duration-300 group hover:shadow-xl hover:-translate-y-2 hover:border-red-300"
                 style={{ willChange: 'transform' }}
