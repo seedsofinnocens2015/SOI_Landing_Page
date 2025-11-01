@@ -18,9 +18,23 @@ const ContactForm = ({
   })
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
+
+  const isPhoneValid = (raw) => {
+    const digits = (raw || '').replace(/\D/g, '');
+    if (digits.length !== 10) return false;
+    return /^[6-9]/.test(digits);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
+    if (name === 'phone') {
+      // Allow only digits and cap at 10
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10)
+      setFormData(prev => ({ ...prev, phone: digitsOnly }))
+      if (!phoneTouched) setPhoneTouched(true)
+      return
+    }
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -28,11 +42,7 @@ const ContactForm = ({
   }
 
   const isFormValid = () => {
-    return formData.firstName.trim() !== '' &&
-      formData.lastName.trim() !== '' &&
-      formData.phone.trim() !== '' &&
-      formData.email.trim() !== '' &&
-      formData.message.trim() !== ''
+    return formData.firstName.trim() !== '' && isPhoneValid(formData.phone)
   }
 
   const handleSubmit = async (e) => {
@@ -40,11 +50,15 @@ const ContactForm = ({
     if (!isFormValid()) return;
 
     try {
-      const resp = await fetch('https://soi-landing-page-backend.vercel.app/api/leadsquared/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      const resp = await fetch(
+        'https://soi-landing-page-backend.vercel.app/api/leadsquared/lead'
+        // 'http://localhost:4000/api/leadsquared/lead'
+        ,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
 
       const data = await resp.json();
       if (data?.duplicate) {
@@ -106,7 +120,6 @@ const ContactForm = ({
                 value={formData.lastName}
                 onChange={handleInputChange}
                 placeholder="Last Name"
-                required
                 className="col-span-1 w-full rounded-md bg-white text-gray-900 placeholder:text-gray-500 px-3 py-2 outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
@@ -118,16 +131,21 @@ const ContactForm = ({
               onChange={handleInputChange}
               placeholder="Phone Number"
               required
+              inputMode="numeric"
+              maxLength={10}
               className="w-full rounded-md bg-white text-gray-900 placeholder:text-gray-500 px-3 py-2 outline-none focus:ring-2 focus:ring-red-500"
             />
+
+            {phoneTouched && !isPhoneValid(formData.phone) && (
+              <p className="text-xs text-red-400 mt-1">Kindly provide a valid mobile number</p>
+            )}
 
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              placeholder="Email Address"
-              required
+              placeholder="Email Address (Optional)"
               className="w-full rounded-md bg-white text-gray-900 placeholder:text-gray-500 px-3 py-2 outline-none focus:ring-2 focus:ring-red-500"
             />
 
@@ -136,8 +154,7 @@ const ContactForm = ({
               value={formData.message}
               onChange={handleInputChange}
               rows="2"
-              placeholder="Message"
-              required
+              placeholder="Message (Optional)"
               className="w-full rounded-md bg-white text-gray-900 placeholder:text-gray-500 px-3 py-2 outline-none focus:ring-2 focus:ring-red-500"
             />
 
