@@ -15,7 +15,7 @@ const ContactForm = ({
     phone: '',
     email: '',
     message: ''
-  })
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [phoneTouched, setPhoneTouched] = useState(false);
@@ -27,23 +27,19 @@ const ContactForm = ({
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     if (name === 'phone') {
-      // Allow only digits and cap at 10
-      const digitsOnly = value.replace(/\D/g, '').slice(0, 10)
-      setFormData(prev => ({ ...prev, phone: digitsOnly }))
-      if (!phoneTouched) setPhoneTouched(true)
-      return
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, phone: digitsOnly }));
+      if (!phoneTouched) setPhoneTouched(true);
+      return;
     }
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const isFormValid = () => {
-    return formData.firstName.trim() !== '' && isPhoneValid(formData.phone)
-  }
+    return formData.firstName.trim() !== '' && isPhoneValid(formData.phone);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,21 +47,29 @@ const ContactForm = ({
 
     try {
       const resp = await fetch(
-        'https://soi-landing-page-backend.vercel.app/api/leadsquared/lead'
-        // 'http://localhost:4000/api/leadsquared/lead'
-        ,
+        'https://soi-landing-page-backend.vercel.app/api/leadsquared/lead',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
-        });
+        }
+      );
 
       const data = await resp.json();
+
       if (data?.duplicate) {
         setIsDuplicate(true);
         return;
       }
       if (!resp.ok || !data?.ok) throw new Error('LeadSquared error');
+
+      // ✅ Trigger Google Ads Conversion Tracking
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-719316761/8ZHfCOTPlbobEJnO_9YC',
+        });
+        console.log("✅ Google Ads Conversion Event Fired");
+      }
 
       if (onSubmit) {
         onSubmit(formData);
@@ -73,13 +77,13 @@ const ContactForm = ({
 
       setIsSubmitted(true);
 
-      if (typeof window !== 'undefined') {
-        setTimeout(() => {
-          window.location.reload();
-        }, 5000);
-      }
+      // Auto-refresh after 5 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
 
-    } catch {
+    } catch (err) {
+      console.error('Form submission failed:', err);
       alert('Submission failed. Please try again.');
     }
   };
@@ -95,11 +99,16 @@ const ContactForm = ({
           ×
         </button>
       )}
+
       <h2 className="text-xl sm:text-2xl font-semibold leading-snug">
         {title}
         <br />
-        <span className="italic font-bold">{subtitle}</span> <span className="italic font-bold" style={{ color: '#CC2627' }}>{subtitle2}</span>
+        <span className="italic font-bold">{subtitle}</span>{" "}
+        <span className="italic font-bold" style={{ color: '#CC2627' }}>
+          {subtitle2}
+        </span>
       </h2>
+
       {!isSubmitted ? (
         <>
           <form onSubmit={handleSubmit} className="mt-5 space-y-3">
@@ -136,7 +145,9 @@ const ContactForm = ({
             />
 
             {phoneTouched && !isPhoneValid(formData.phone) && (
-              <p className="text-xs text-red-400 mt-1">Kindly provide a valid mobile number</p>
+              <p className="text-xs text-red-400 mt-1">
+                Kindly provide a valid mobile number
+              </p>
             )}
 
             <input
@@ -160,19 +171,21 @@ const ContactForm = ({
             <button
               type="submit"
               disabled={!isFormValid()}
-              className={`w-full inline-flex items-center justify-center rounded-md text-white font-semibold tracking-wide py-2 transition-colors ${isFormValid()
-                ? 'bg-[#d32f2f] hover:bg-[#c62828] cursor-pointer'
-                : 'bg-gray-400 cursor-not-allowed'
-                }`}
+              className={`w-full inline-flex items-center justify-center rounded-md text-white font-semibold tracking-wide py-2 transition-colors ${
+                isFormValid()
+                  ? 'bg-[#d32f2f] hover:bg-[#c62828] cursor-pointer'
+                  : 'bg-gray-400 cursor-not-allowed'
+              }`}
             >
               SUBMIT
               <span className="ml-2">›</span>
             </button>
           </form>
 
-
           {isDuplicate && (
-            <p className="mt-2 text-sm text-red-400">You have already submitted.</p>
+            <p className="mt-2 text-sm text-red-400">
+              You have already submitted.
+            </p>
           )}
 
           {showDisclaimer && (
@@ -187,12 +200,16 @@ const ContactForm = ({
             <circle cx="12" cy="12" r="10" fill="#d2f5df" />
             <path stroke="#029861" strokeWidth="2.5" fill="none" d="M8 12.5l3 3 5-5" />
           </svg>
-          <h3 className="text-2xl font-bold text-green-400 mb-2">Thank you for contacting us!</h3>
-          <p className="text-base text-white">Your details have been received.<br />Our team will reach out to you soon.</p>
+          <h3 className="text-2xl font-bold text-green-400 mb-2">
+            Thank you for contacting us!
+          </h3>
+          <p className="text-base text-white">
+            Your details have been received.<br />Our team will reach out to you soon.
+          </p>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ContactForm
+export default ContactForm;
