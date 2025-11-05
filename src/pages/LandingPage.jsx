@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import ContactForm from '../components/ContactForm'
-import HeroMobile from '../components/HeroMobile';
-import FloatingConsultButton from '../components/FloatingConsultButton';
+import React, { useState, useEffect, Suspense } from 'react'
+const ContactForm = React.lazy(() => import('../components/ContactForm'))
+const HeroMobile = React.lazy(() => import('../components/HeroMobile'))
+const FloatingConsultButton = React.lazy(() => import('../components/FloatingConsultButton'))
+import LazyGoogleMap from '../components/LazyGoogleMap'
 
 const LandingPage = () => {
   const [isContactOpen, setIsContactOpen] = useState(false)
@@ -563,7 +564,9 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Component */}
-      <HeroMobile className="sm:hidden" />{/* Show mobile version only on mobile */}
+      <Suspense fallback={null}>
+        <HeroMobile className="sm:hidden" />
+      </Suspense>{/* Show mobile version only on mobile */}
       {/* Show desktop/tablet hero only on sm+ screens */}
       <section className="relative hidden sm:block w-full min-h-[500px] sm:h-[480px] lg:h-[620px]" aria-label="Hero">
         {/* Background image */}
@@ -574,7 +577,9 @@ const LandingPage = () => {
         />
         {/* Overlay form panel on the image */}
         <div className="absolute left-4 right-4 sm:left-20 sm:right-auto top-8 sm:top-16 flex justify-center sm:justify-start">
-          <ContactForm />
+          <Suspense fallback={null}>
+            <ContactForm />
+          </Suspense>
         </div>
       </section>
 
@@ -603,6 +608,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/IUI, IVF & ICSI.webp"
                   alt="IUI, IVF & ICSI"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">IUI, IVF & ICSI</h3>
@@ -614,6 +620,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/Blastocyst.webp"
                   alt="Blastocyst Transfer"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Blastocyst Transfer</h3>
@@ -625,6 +632,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/Cryopreservation.webp"
                   alt="Cryopreservation"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Cryopreservation</h3>
@@ -637,6 +645,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/PRP & Ovarian.webp"
                   alt="PRP & Ovarian Rejuvenation"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">PRP & Ovarian Rejuvenation</h3>
@@ -649,6 +658,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/Genetic testing.webp"
                   alt="Genetic Testing"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Genetic Testing</h3>
@@ -661,6 +671,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/Genetic.webp"
                   alt="Genetic Counseling"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Genetic Counseling</h3>
@@ -672,6 +683,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/TESA PESA.webp"
                   alt="TESA/PESA"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">TESA/PESA</h3>
@@ -683,6 +695,7 @@ const LandingPage = () => {
                   src="/gads/nov25/delhi/Images/Laparoscopy &.webp"
                   alt="Laparoscopy & Hysteroscopy"
                   className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-gray-900 font-medium text-lg sm:text-xl">Laparoscopy & Hysteroscopy</h3>
@@ -725,6 +738,7 @@ const LandingPage = () => {
                     src={doc.image}
                     alt={doc.name}
                     className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-75 group-hover:saturate-150"
+                    loading="lazy"
                   />
 
                   {/* Overlay/Fade-in Content */}
@@ -867,7 +881,7 @@ const LandingPage = () => {
                 desc:
                   "With over 35 IVF centres across the National and International, Seeds of Innocens brings fertility care closer to you. Whether you're in a metro or a smaller city, expert help is never far away. Visit your nearest centre and take the first step toward parenthood with us.",
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/08.webp" alt="35+ IVF Centres" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/08.webp" alt="35+ IVF Centres" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -875,7 +889,7 @@ const LandingPage = () => {
                 desc:
                   'At Seeds of Innocens, we are proud to have helped over 20,000 families welcome healthy babies into the world. Our commitment to quality fertility care and personalised treatment has made us a trusted name in IVF.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/01.webp" alt="20,000+ Healthy Babies" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/01.webp" alt="20,000+ Healthy Babies" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -883,7 +897,7 @@ const LandingPage = () => {
                 desc:
                   'We maintain an impressive IVF success rate of 78%, higher than the average. Our advanced lab technology and individualised treatment plans make this possible. We believe in transparency, trust, and results that matter.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/03.webp" alt="Upto 78% Success Rate" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/03.webp" alt="Upto 78% Success Rate" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -891,7 +905,7 @@ const LandingPage = () => {
                 desc:
                   'Our team includes over 30 certified and highly trained fertility specialists and embryologists. With years of experience and global expertise, we offer world-class treatment and compassionate care.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/06.webp" alt="30+ Certified Trained Clinicians" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/06.webp" alt="30+ Certified Trained Clinicians" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -899,7 +913,7 @@ const LandingPage = () => {
                 desc:
                   'We provide affordable IVF treatment and offer quality services to patients, with customised packages and financing options to make your journey easier.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/02.webp" alt="Affordable IVF Care" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/02.webp" alt="Affordable IVF Care" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -907,7 +921,7 @@ const LandingPage = () => {
                 desc:
                   'We offer fetal medicine services including ultrasound scans, fetal echocardiography, and diagnostic procedures like amniocentesis and CVS for comprehensive prenatal care.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/04.webp" alt="Fetal Medicine" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/04.webp" alt="Fetal Medicine" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -915,7 +929,7 @@ const LandingPage = () => {
                 desc:
                   'Genetic counselors evaluate family histories and identify potential genetic risks that could affect reproductive outcomes, guiding you with options and implications of results.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/05.webp" alt="Expert Fertility Counsellor & Clinical Geneticist" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/05.webp" alt="Expert Fertility Counsellor & Clinical Geneticist" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
               {
@@ -923,7 +937,7 @@ const LandingPage = () => {
                 desc:
                   'We are the first IVF centre in India to establish an in-house genetic lab with testing services including PGT-A which increases the success rate of the IVF process.',
                 icon: (
-                  <img src="/gads/nov25/delhi/Images/07.webp" alt="In-House Genetic Lab" className="h-14 w-14 object-contain" />
+                  <img src="/gads/nov25/delhi/Images/07.webp" alt="In-House Genetic Lab" className="h-14 w-14 object-contain" loading="lazy" />
                 ),
               },
             ].map((f, idx) => (
@@ -957,6 +971,7 @@ const LandingPage = () => {
                 src="/gads/nov25/delhi/Images/Untitled-2 1.webp"
                 alt="Seeds of Innocens IVF Centre Delhi building"
                 className="rounded-sm w-full h-auto object-cover shadow"
+                loading="lazy"
               />
             </div>
 
@@ -1026,15 +1041,7 @@ const LandingPage = () => {
             {/* Google Map */}
             <div className="w-full lg:w-1/2 flex flex-col">
               <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2065.4160333339305!2d77.20331691272258!3d28.532736663578216!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce20320e1d805%3A0x7d88d4bcd484e5ec!2sSeeds%20of%20Innocens%20IVF%20Centre%20-%20Best%20IVF%20Centre%20in%20Delhi%20%7C%20Fertility%20Clinics!5e0!3m2!1sen!2sin!4v1761809915881!5m2!1sen!2sin"
-                  width="100%"
-                  height="335"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Seeds of Innocens IVF Centre Location"
-                />
+                <LazyGoogleMap title="Seeds of Innocens IVF Centre Location" height={335} />
               </div>
             </div>
           </div>
@@ -1067,12 +1074,16 @@ const LandingPage = () => {
           <div onClick={() => setIsContactOpen(false)} className="absolute inset-0 bg-black/50" />
           <div className="relative z-10 flex min-h-screen items-center justify-center p-2 sm:p-4">
             <div className="relative max-w-md sm:max-w-lg bg-black rounded-lg">
-              <ContactForm onClose={() => setIsContactOpen(false)} />
+              <Suspense fallback={null}>
+                <ContactForm onClose={() => setIsContactOpen(false)} />
+              </Suspense>
             </div>
           </div>
         </div>
       )}
-      <FloatingConsultButton />
+      <Suspense fallback={null}>
+        <FloatingConsultButton />
+      </Suspense>
     </>
   )
 }
