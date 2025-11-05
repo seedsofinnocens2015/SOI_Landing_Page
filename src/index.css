@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 .animated-underline {
     position: relative;
     display: inline-block;

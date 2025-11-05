@@ -79,8 +79,7 @@ const ContactForm = ({
         }, 5000);
       }
 
-      // Conversion tracking removed as requested
-    } catch (_err) {
+    } catch {
       alert('Submission failed. Please try again.');
     }
   };

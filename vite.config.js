@@ -7,6 +7,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/gads/nov25/delhi/',
   server: {
     host: true,
   },
